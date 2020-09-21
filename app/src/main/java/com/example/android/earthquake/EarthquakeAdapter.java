@@ -1,5 +1,6 @@
 package com.example.android.earthquake;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,12 +8,25 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import static com.example.android.earthquake.R.layout.list_item;
 
 public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
+    private String formatDate(Date dateObject) {
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("LLL dd, yyyy");
+        return dateFormat.format(dateObject);
+    }
 
+    /**
+     * Return the formatted date string (i.e. "4:30 PM") from a Date object.
+     */
+    private String formatTime(Date dateObject) {
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a");
+        return timeFormat.format(dateObject);
+    }
     private static final String LOG_TAG = EarthquakeAdapter.class.getSimpleName();
 
     /**
@@ -56,9 +70,17 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
         TextView LocationTextView = (TextView) listItemView.findViewById(R.id.location_text);
         LocationTextView .setText(currentEarthquake.getLocation());
 
+        Date dateObject = new Date(currentEarthquake.getTimeInMilliseconds());
 
         TextView DateTextView = (TextView) listItemView.findViewById(R.id.date_text);
-        DateTextView.setText(currentEarthquake.getDate());
+        String formattedDate = formatDate(dateObject);
+        DateTextView.setText(formattedDate);
+
+        TextView timeView = (TextView) listItemView.findViewById(R.id.date_time);
+        // Format the time string (i.e. "4:30PM")
+        String formattedTime = formatTime(dateObject);
+        // Display the time of the current earthquake in that TextView
+        timeView.setText(formattedTime);
 
         return listItemView;
     }

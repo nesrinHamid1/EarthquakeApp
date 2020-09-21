@@ -1,5 +1,6 @@
 package com.example.android.earthquake;
 
+import android.annotation.SuppressLint;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -71,14 +72,9 @@ public final class QueryUtils {
 
                 String mag = properties.getString("mag");
                 String place = properties.getString("place");
+                long timeInMilliseconds = properties.getLong("time");
 
-                long time =properties.getLong("time");
-                long timeInMilliseconds = time;
-                Date dateObject = new Date(timeInMilliseconds);
-                SimpleDateFormat dateFormatter = new SimpleDateFormat("MMM DD, yyyy");
-                String dateToDisplay = dateFormatter.format(dateObject);
-
-                Earthquake earthquakesObj = new Earthquake(mag,place, dateToDisplay);
+                Earthquake earthquakesObj = new Earthquake(mag,place, timeInMilliseconds);
 
                 earthquakes.add(earthquakesObj);
             }
